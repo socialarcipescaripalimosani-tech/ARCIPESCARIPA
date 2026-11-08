@@ -10,55 +10,57 @@ locandina: "/assets/images/locandine/caccia-ai-giganti-dicembre-2026.png"
 locandina_pdf: "/assets/images/locandine/caccia-ai-giganti-dicembre-2026.pdf"
 is_past: false
 form_link: "" # Lascia vuoto per usare il link generale del Google Form in _config.yml
-excerpt: "Il Circolo ARCI Pesca FISA APS Ripalimosani organizza 'Caccia ai Giganti': gara all'ultimo grammo con immissione di trote da 0,5 kg a 1 kg! Panino e bibita offerti a tutti a metà gara."
+excerpt: "Domenica 27 Dicembre 2026: gara di pesca all'ultimo grammo con immissione di trote giganti (da 0,5 kg a 1 kg). Tecnica libera, 6 picchetti di durata crescente, ristoro offerto a metà gara."
 ---
 
-Il **Circolo ARCI Pesca FISA APS Ripalimosani** organizza la manifestazione ufficiale:
+# 🎣 Caccia ai Giganti: L'Evento di Pesca dell'Anno
 
-# 🏆 CACCIA AI GIGANTI
-**Domenica 27 Dicembre 2026** presso il Laghetto *"La Pianella"* a Sassinoro.
-
-Gara avvincente all'ultimo grammo con **immissione di trote giganti di pezzatura dal mezzo chilo al chilo**!
-
-> 🥪 **Ristoro Incluso**: L'organizzazione è lieta di offrire a tutti i partecipanti **un panino e una bibita a metà gara**!
+Benvenuti sulla pagina ufficiale dell'evento organizzato dal **Circolo Arci Pesca Fisa APS Ripalimosani**. Preparate l'attrezzatura: **Domenica 27 Dicembre 2026** vi aspetta una gara all'ultimo grammo, resa unica dall'immissione di **trote giganti** con una pezzatura che va dal mezzo chilo fino al chilo.
 
 ---
 
-## ⏰ Programma dell'Evento
+## 📜 Regolamento e Dinamica di Gara
 
-* **Ore 07:30**: Raduno presso il parcheggio del laghetto *"La Pianella"* - Sassinoro.
-* **Ore 08:00**: Inizio sorteggio postazioni.
-* **Ore 08:20**: Inizio gara ufficiale.
-* **Durata evento**: 3 ore complessive.
-* **Premiazione**: A seguire, sul podio i **3 esemplari più grandi in ordine di peso**.
+La tecnica di pesca per questa competizione è completamente **LIBERA**. La vittoria non si baserà sul numero di catture, ma esclusivamente sulla stazza: **saliranno sul podio i proprietari dei 3 esemplari più grandi** valutati in ordine di peso.
 
----
+### Cosa significa "6 picchetti di durata crescente"?
+La gara si svolgerà articolandosi su **6 postazioni** (chiamate in gergo "picchetti"). I picchetti sono le piazzole di pesca assegnate lungo le sponde del laghetto. I partecipanti non rimarranno fermi nella stessa postazione per tutta la gara, ma effettueranno delle rotazioni (spostamenti) su 6 picchetti diversi.
 
-## 🎣 Regolamento Tecnico
-
-* **Tecnica di pesca**: LIBERA.
-* **Svolgimento**: 6 picchetti di durata crescente.
-* **Classifica e Podio**: Saranno premiati i concorrenti che cattureranno i 3 esemplari più pesanti.
+La **"durata crescente"** indica che il tempo di permanenza in ogni postazione aumenterà progressivamente (ad esempio: il primo turno potrebbe durare 15 minuti, il secondo 20, l'ultimo 35). Questo sistema tattico è ideato per garantire totale equità tra i garisti e bilanciare la naturale flessione dell'attività delle trote, che tendono a mangiare meno col passare delle ore.
 
 ---
 
-## 💶 Quota di Iscrizione e Scadenza
+## ⏱️ La Timeline della Giornata
 
-* **Adulti**: € 25,00
-* **Under 14 e Donne**: € 15,00
-* **Scadenza Iscrizioni**: **Mercoledì 23 Dicembre ore 20:00 (inderogabile)**
+La mattinata è scandita con precisione per garantirvi un'esperienza perfetta, sviluppandosi su una durata totale dell'evento di **3 ore**:
 
-> ℹ️ **Pagamento della Quota**: Chi non può versare la quota di persona può lasciarla comodamente presso il **Bar da Nicola** a Ripalimosani, oppure indicare l'avvenuto pagamento telematico nel Google Form.
+* **Ore 07:30**: Raduno generale presso il comodo parcheggio del laghetto *"La Pianella"* situato a Sassinoro.
+* **Ore 08:00**: Inizio delle operazioni di sorteggio per stabilire i picchetti di partenza di ciascun partecipante.
+* **Ore 08:20**: Fischio d'inizio e lenze in acqua per dare il via alla gara.
+
+> 🥪 **Pausa Ristoro**: Per ricaricare le energie senza allontanarsi troppo dall'azione, l'organizzazione è lieta di offrire a tutti i partecipanti **un panino e una bibita** esattamente a metà gara.
 
 ---
 
-## 📞 Info, Contatti e Iscrizioni
+## 🎟️ Quote e Ticket di Iscrizione
 
-Per qualsiasi informazione è possibile contattare i responsabili dell'evento:
-* **Striano Enzo**: 333 2566256
-* **Palermo Antonio**: 339 1260891
-* **Tudino Angelo**: 338 8269347
+* **Quota Adulti**: 25 €
+* **Quota Ridotta (Under 14 e Donne)**: 15 € *(per incentivare la partecipazione di giovani e appassionate)*
 
-Puoi anche [scaricare la locandina ufficiale in PDF ad alta definizione]({{ '/assets/images/locandine/caccia-ai-giganti-dicembre-2026.pdf' | relative_url }}).
+> ⚠️ **Scadenza Iscrizioni**: Fate molta attenzione alle tempistiche organizzative: la scadenza per confermare la propria presenza è fissata inderogabilmente per **Mercoledì 23 Dicembre alle ore 20:00**.
 
-Compila il modulo Google Form qui sotto per registrarti online: ricorda di tenere pronti **Nome**, **Cognome** e **Stato del Pagamento**.
+---
+
+## 📞 Contatti e Prenotazioni
+
+Siete pronti a lanciare la sfida ai giganti? Per qualsiasi informazione aggiuntiva o per formalizzare la vostra iscrizione, lo staff è a completa disposizione telefonicamente:
+
+* **Enzo Striano**: [333 2566256](tel:3332566256)
+* **Antonio Palermo**: [339 1260891](tel:3391260891)
+* **Angelo Tudino**: [338 8269347](tel:3388269347)
+
+> 💡 **Un'ulteriore comodità**: chi non dovesse avere la possibilità di versare la quota di iscrizione di persona agli organizzatori, può lasciarla in sicurezza presso il **Bar da Nicola**.
+
+---
+
+📄 **Locandina Ufficiale**: Puoi anche [scaricare la locandina ufficiale in PDF ad alta definizione]({{ '/assets/images/locandine/caccia-ai-giganti-dicembre-2026.pdf' | relative_url }}).
