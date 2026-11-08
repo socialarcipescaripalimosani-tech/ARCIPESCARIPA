@@ -1,0 +1,55 @@
+# ==============================================================================
+# Configurazione ARCI Pesca Ripalimosani - Static Site Generator (Jekyll)
+# ==============================================================================
+
+# Dati Generali del Circolo
+title: "ARCI Pesca Ripalimosani"
+tagline: "Circolo di Pesca Sportiva • Fiume Biferno (SS 647 km 31,350 - 33,250)"
+description: "Sito ufficiale dell'ARCI Pesca Ripalimosani A.S.D. Affiliato ARCI Pesca F.I.S.A. Concessione sul Fiume Biferno dal km 31,350 al km 33,250 della SS 647."
+email: "arcipescaripalimosani@outlook.it"
+societa: "ARCI Pesca Ripalimosani A.S.D."
+
+# Tratto in Concessione Ufficiale Fiume Biferno
+tratto_concessione: "Fiume Biferno: dal km 31,350 al km 33,250 della Strada Statale 647 (Bifernina)"
+
+# Configurazione GitHub Pages
+baseurl: ""
+url: ""
+
+# Google Forms: Moduli Online per Iscrizioni e Associazione
+# 1. Modulo Richiesta Associazione al Circolo (Tesseramento Soci)
+google_form_associazione_url: "https://docs.google.com/forms/d/e/1FAIpQLScqerX1LJILg_Q72--uCJq_stUyf2Y9Mvn84JWCKVPRrz6XYg/viewform?usp=header"
+
+# 2. Modulo Iscrizione alle Gare e Manifestazioni
+google_form_url: "https://docs.google.com/forms/d/e/1FAIpQLSfyZUWCNBYfpDlM_P5NGl4LQpwT7s85YT3eQm3zv0NSMxrhSA/viewform?usp=header"
+
+# Impostazioni Markdown e Build
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+permalink: /news/:year/:month/:day/:title/
+
+# Collezioni (Eventi)
+collections:
+  events:
+    output: true
+    permalink: /eventi/:path/
+
+# Asset Principali
+assets:
+  logo_circolo: "/assets/images/logo-circolo.png"
+  logo_arcipesca: "/assets/images/logo-arcipesca.png"
+  hero_image: "/assets/images/fiume-biferno-hero.jpg"
+
+# Esclusioni dalla compilazione
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - .github/
+  - vendor/
+  - LOCANDINE/
+  - LOGHI/

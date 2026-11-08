@@ -1,0 +1,27 @@
+<footer class="site-footer" id="site-footer">
+  <div class="footer-container">
+    <!-- Logo Affiliazione Arcipesca -->
+    <div class="footer-affiliation">
+      <img src="{{ site.assets.logo_arcipesca | default: '/assets/images/logo-arcipesca.png' | relative_url }}" 
+           alt="Logo Affiliazione ARCI Pesca F.I.S.A." 
+           class="footer-logo-arcipesca" />
+      <span class="affiliation-badge">Affiliato ARCI Pesca F.I.S.A.</span>
+    </div>
+
+    <!-- Dati Società -->
+    <div class="footer-society">
+      <p class="society-name">{{ site.societa | default: "ARCI Pesca Ripalimosani A.S.D." }}</p>
+    </div>
+
+    <!-- Email di Contatto -->
+    <div class="footer-contact">
+      <a href="mailto:{{ site.email }}" class="footer-email-link">
+        <svg class="email-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+          <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span>{{ site.email }}</span>
+      </a>
+    </div>
+  </div>
+</footer>

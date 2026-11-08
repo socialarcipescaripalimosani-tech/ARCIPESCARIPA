@@ -1,0 +1,160 @@
+<article class="single-event">
+  <!-- Event Header -->
+  <header class="page-header">
+    <div class="container">
+      <nav class="breadcrumb-nav" aria-label="Percorso di navigazione">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="{{ '/eventi/' | relative_url }}">Eventi</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ page.title | truncate: 35 }}</span>
+      </nav>
+
+      <div class="page-header-content">
+        {% if page.is_past %}
+        <span class="event-status-badge past">Evento Concluso</span>
+        {% else %}
+        <span class="event-status-badge upcoming">Prossimo Evento in Programma</span>
+        {% endif %}
+        <h1 class="page-title">{{ page.title }}</h1>
+        {% if page.subtitle %}
+        <p class="page-subtitle">{{ page.subtitle }}</p>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <div class="page-content-wrapper">
+    <div class="container">
+      <div class="event-detail-layout">
+        <!-- Colonna Sinistra: Locandina con Pop-up / Lightbox -->
+        <div class="event-poster-column">
+          {% if page.locandina %}
+          <div class="poster-card">
+            <div class="poster-image-box lightbox-trigger" 
+                 data-lightbox-src="{{ page.locandina | relative_url }}" 
+                 data-lightbox-caption="{{ page.title }} - Locandina Ufficiale">
+              <img src="{{ page.locandina | relative_url }}" alt="Locandina {{ page.title }}" class="poster-thumbnail" />
+              <div class="poster-zoom-overlay">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="zoom-icon">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <span>Clicca per ingrandire la Locandina</span>
+              </div>
+            </div>
+            <p class="poster-help-text">Clicca sull'immagine per aprirla a tutto schermo</p>
+            {% if page.locandina_pdf %}
+            <div style="text-align: center; margin-top: 0.85rem;">
+              <a href="{{ page.locandina_pdf | relative_url }}" target="_blank" class="btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1.15rem; display: inline-flex; color: var(--color-river-dark); background: var(--color-white); border: 1px solid var(--color-sand-border);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Scarica Locandina PDF</span>
+              </a>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Colonna Destra: Dettagli, Iscrizione Google Form, Regolamento -->
+        <div class="event-info-column">
+          <!-- Scheda Dettagli Rapidi -->
+          <div class="event-quick-info card-surface">
+            <h3>Dettagli Manifestazione</h3>
+            <ul class="event-info-list">
+              {% if page.event_date %}
+              <li>
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span><strong>Data:</strong> {{ page.event_date | date: "%d/%m/%Y" }}</span>
+              </li>
+              {% endif %}
+              {% if page.time %}
+              <li>
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <span><strong>Orario:</strong> {{ page.time }}</span>
+              </li>
+              {% endif %}
+              {% if page.location %}
+              <li>
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+                <span><strong>Luogo:</strong> {{ page.location }}</span>
+              </li>
+              {% endif %}
+              {% if page.technique %}
+              <li>
+                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M2 12h20M2 12c3.5-3 6.5-4 10-4s6.5 1 10 4M2 12c3.5 3 6.5 4 10 4s6.5-1 10-4"></path>
+                </svg>
+                <span><strong>Specialità:</strong> {{ page.technique }}</span>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+
+          <!-- Modulo Iscrizioni Google Form (se non è un evento passato) -->
+          {% unless page.is_past %}
+          <div class="event-registration-box">
+            <div class="registration-icon-badge">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+              </svg>
+            </div>
+            <h3 class="registration-heading">Iscrizione Online all'Evento</h3>
+            <p class="registration-instructions">
+              Prima di procedere con la compilazione del modulo, ti ricordiamo di <strong>tenere pronti: Nome, Cognome del partecipante e la ricevuta/stato del pagamento</strong> della quota di partecipazione.
+            </p>
+            {% assign form_target = page.form_link | default: site.google_form_url %}
+            <a href="{{ form_target }}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-registration-primary">
+              <span>Iscriviti all'Evento (Google Form)</span>
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+          {% endunless %}
+
+          <!-- Testo e Regolamento Esteso Markdown -->
+          <div class="event-markdown typography">
+            {{ content }}
+          </div>
+        </div>
+      </div>
+
+      <div class="post-footer">
+        <a href="{{ '/eventi/' | relative_url }}" class="btn-secondary">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Torna al Calendario Eventi</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</article>

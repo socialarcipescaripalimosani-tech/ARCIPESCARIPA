@@ -1,0 +1,265 @@
+---
+layout: page
+title: "Calendario Gare & Manifestazioni"
+eyebrow: "Stagione Agonistica & Sociale"
+subtitle: "Scopri le prossime competizioni sul Fiume Biferno e sui grandi laghi. Consulta le locandine in alta definizione e registrati online."
+permalink: /eventi/
+---
+
+<div class="events-page-container">
+
+  <!-- ==============================================================================
+       1. SEZIONE PROSSIMI EVENTI
+       ============================================================================== -->
+  <section class="events-section upcoming-section" id="prossimi-eventi">
+    <div class="section-badge-header">
+      <span class="badge-status-dot upcoming"></span>
+      <h2 class="events-section-title">Prossimi Eventi in Programma</h2>
+    </div>
+    <p class="section-lead-desc">
+      Clicca su una qualsiasi <strong>locandina</strong> per ingrandirla a schermo intero con la visualizzazione lightbox ad alta risoluzione.
+    </p>
+
+    <!-- Griglia Prossimi Eventi Dinamica -->
+    {% assign upcoming_events = site.events | where_exp: "item", "item.is_past != true" | sort: "event_date" %}
+
+    <div class="events-grid">
+      {% for event in upcoming_events %}
+      <article class="event-card">
+        <!-- Colonna Locandina con Trigger Lightbox Pop-up -->
+        <div class="event-card-poster">
+          {% if event.locandina %}
+          <div class="poster-wrapper lightbox-trigger"
+               data-lightbox-src="{{ event.locandina | relative_url }}"
+               data-lightbox-caption="{{ event.title }} — Locandina Ufficiale">
+            <img src="{{ event.locandina | relative_url }}" alt="Locandina di {{ event.title }}" class="poster-img" loading="lazy" />
+            <div class="poster-overlay">
+              <div class="poster-overlay-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <line x1="11" y1="8" x2="11" y2="14"></line>
+                  <line x1="8" y1="11" x2="14" y2="11"></line>
+                </svg>
+                <span>Ingrandisci Locandina</span>
+              </div>
+            </div>
+          </div>
+          {% else %}
+          <div class="poster-placeholder">
+            <span>Nessuna locandina disponibile</span>
+          </div>
+          {% endif %}
+        </div>
+
+        <!-- Colonna Dettagli Evento -->
+        <div class="event-card-content">
+          <div class="event-tags">
+            <span class="event-pill-upcoming">In Programma</span>
+            {% if event.technique %}
+            <span class="event-pill-tag">{{ event.technique }}</span>
+            {% endif %}
+          </div>
+
+          <h3 class="event-card-title">
+            <a href="{{ event.url | relative_url }}">{{ event.title }}</a>
+          </h3>
+
+          <ul class="event-quick-specs">
+            {% if event.event_date %}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spec-icon">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              <span><strong>Data:</strong> {{ event.event_date | date: "%d/%m/%Y" }}</span>
+            </li>
+            {% endif %}
+
+            {% if event.time %}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spec-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span><strong>Orario:</strong> {{ event.time }}</span>
+            </li>
+            {% endif %}
+
+            {% if event.location %}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spec-icon">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <span><strong>Campo di Gara:</strong> {{ event.location }}</span>
+            </li>
+            {% endif %}
+
+            {% if event.fee %}
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="spec-icon">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+                <line x1="12" y1="6" x2="12" y2="18"></line>
+              </svg>
+              <span><strong>Quota:</strong> {{ event.fee }}</span>
+            </li>
+            {% endif %}
+          </ul>
+
+          <p class="event-summary">
+            {{ event.excerpt | default: event.content | strip_html | truncatewords: 24 }}
+          </p>
+
+          <div class="event-card-actions">
+            <a href="{{ event.url | relative_url }}" class="btn-text-link">
+              <span>Leggi regolamento completo</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            {% assign event_form = event.form_link | default: site.google_form_url %}
+            <a href="{{ event_form }}" target="_blank" rel="noopener noreferrer" class="btn-action-sm">
+              Iscriviti Subito
+            </a>
+          </div>
+        </div>
+      </article>
+      {% empty %}
+      <div class="empty-state-box">
+        <h3>Nessun nuovo evento in programma</h3>
+        <p>Stiamo definendo il calendario delle prossime gare. Torna presto a trovarci o segui le nostre news!</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- ==============================================================================
+         INTEGRAZIONE GOOGLE FORM PER ISCRIZIONI (MOLTO VISIBILE, ANGOLI ARROTONDATI)
+         ============================================================================== -->
+    <div class="registration-cta-box" id="iscrizioni">
+      <div class="registration-cta-inner">
+        <div class="registration-cta-icon-wrapper">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="registration-cta-icon">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+
+        <div class="registration-cta-content">
+          <span class="registration-badge">Iscrizioni Online Ufficiali</span>
+          <h3 class="registration-cta-title">Modulo di Registrazione alla Gara</h3>
+          
+          <!-- Testo di accompagnamento richiesto: preparare Nome, Cognome e Stato del pagamento -->
+          <div class="registration-notice-card">
+            <svg class="notice-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>
+              <strong>Promemoria per i partecipanti:</strong> Prima di procedere con l'iscrizione online, assicurati di avere a portata di mano: <strong>Nome e Cognome del pescatore</strong> e la <strong>ricevuta o lo stato del pagamento</strong> della quota associativa/gara.
+            </p>
+          </div>
+
+          <!-- Pulsante Primario con angoli arrotondati marcati (Pill Button Visibile) -->
+          <div class="registration-button-wrapper">
+            <!-- NOTA: Sostituisci questo link nel file _config.yml (google_form_url) o direttamente qui sotto -->
+            <a href="{{ site.google_form_url }}" 
+               target="_blank" 
+               rel="noopener noreferrer" 
+               class="btn-google-form-primary"
+               aria-label="Apri il Google Form di iscrizione alla gara (si apre in una nuova scheda)">
+              <svg class="btn-icon-form" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+              </svg>
+              <span>Iscriviti all'Evento</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <span class="registration-footnote">
+            Il modulo si apre in una finestra sicura di Google Forms. Dopo l'invio riceverai la conferma dai responsabili del circolo.
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==============================================================================
+       2. SEZIONE EVENTI PASSATI (INIZIALMENTE VUOTA MA PREDISPOSTA NEL CODICE)
+       ============================================================================== -->
+  <section class="events-section past-section" id="eventi-passati">
+    <div class="section-badge-header">
+      <span class="badge-status-dot past"></span>
+      <h2 class="events-section-title">Archivio Eventi Passati</h2>
+    </div>
+    <p class="section-lead-desc">
+      Lo storico delle manifestazioni sportive concluse, con le locandine storiche, i resoconti e le classifiche ufficiali.
+    </p>
+
+    <!-- Filtro dinamico per Eventi Passati (is_past == true) -->
+    {% assign past_events = site.events | where: "is_past", true | sort: "event_date" | reverse %}
+
+    {% if past_events.size > 0 %}
+    <div class="events-grid past-events-grid">
+      {% for event in past_events %}
+      <article class="event-card past-card">
+        <div class="event-card-poster">
+          {% if event.locandina %}
+          <div class="poster-wrapper lightbox-trigger"
+               data-lightbox-src="{{ event.locandina | relative_url }}"
+               data-lightbox-caption="{{ event.title }} (Edizione Conclusa)">
+            <img src="{{ event.locandina | relative_url }}" alt="Locandina di {{ event.title }}" class="poster-img" loading="lazy" />
+            <div class="poster-overlay">
+              <div class="poster-overlay-btn">
+                <span>Vedi Locandina</span>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="event-card-content">
+          <div class="event-tags">
+            <span class="event-pill-past">Concluso</span>
+            {% if event.technique %}<span class="event-pill-tag">{{ event.technique }}</span>{% endif %}
+          </div>
+          <h3 class="event-card-title">
+            <a href="{{ event.url | relative_url }}">{{ event.title }}</a>
+          </h3>
+          <p class="event-date-past">Svoltosi il: {{ event.event_date | date: "%d/%m/%Y" }}</p>
+          <p class="event-summary">{{ event.excerpt | default: event.content | strip_html | truncatewords: 20 }}</p>
+          <div class="event-card-actions">
+            <a href="{{ event.url | relative_url }}" class="btn-text-link">Consulta resoconto →</a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <!-- Placeholder elegante quando la sezione è vuota (come specificato nei requisiti) -->
+    <div class="past-empty-state card-surface">
+      <div class="past-empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 14 14"></polyline>
+        </svg>
+      </div>
+      <h3 class="past-empty-title">Nessun evento passato in archivio</h3>
+      <p class="past-empty-text">
+        Non sono ancora presenti eventi conclusi per l'annata in corso. Non appena una gara sarà terminata, basterà impostare <code>is_past: true</code> nel relativo file Markdown in <code>_events/</code> e verrà archiviata automaticamente qui con la sua locandina e la classifica.
+      </p>
+    </div>
+    {% endif %}
+  </section>
+
+</div>

@@ -1,0 +1,76 @@
+<article class="single-post">
+  <!-- Post Header -->
+  <header class="post-hero">
+    <div class="container">
+      <nav class="breadcrumb-nav" aria-label="Percorso di navigazione">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="{{ '/news/' | relative_url }}">News</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ page.title | truncate: 35 }}</span>
+      </nav>
+
+      <div class="post-header-body">
+        {% if page.category or page.categories.first %}
+        <span class="news-badge">{{ page.category | default: page.categories.first }}</span>
+        {% endif %}
+        <h1 class="single-post-title">{{ page.title }}</h1>
+        <div class="single-post-meta">
+          <time datetime="{{ page.date | date_to_xmlschema }}">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="meta-icon">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            Pubblicato il {{ page.date | date: "%d/%m/%Y" }}
+          </time>
+          {% if page.author %}
+          <span class="meta-author">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="meta-icon">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            {{ page.author }}
+          </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenuto del Post -->
+  <div class="post-body-container">
+    <div class="container-narrow">
+      {% if page.image %}
+      <div class="post-featured-image">
+        <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" />
+      </div>
+      {% endif %}
+
+      <div class="post-markdown-content typography">
+        {{ content }}
+      </div>
+
+      <!-- Footer dell'Articolo con Navigazione -->
+      <footer class="post-footer">
+        <div class="post-nav-actions">
+          <a href="{{ '/news/' | relative_url }}" class="btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Torna a tutte le News</span>
+          </a>
+          <a href="{{ '/eventi/' | relative_url }}" class="btn-primary">
+            <span>Guarda i Prossimi Eventi</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="btn-icon">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>
+</article>

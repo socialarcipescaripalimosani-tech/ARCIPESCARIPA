@@ -1,0 +1,79 @@
+---
+layout: page
+title: "Tutte le News & Comunicazioni"
+eyebrow: "Archivio Articoli"
+subtitle: "Consulta tutti i comunicati ufficiali, gli avvisi di semina, i regolamenti e le cronache delle gare del nostro circolo."
+permalink: /news/
+---
+
+<div class="news-archive-container">
+  <div class="news-archive-intro">
+    <p class="lead-text">
+      In questa sezione trovi lo storico completo di tutte le novità pubblicate. Gli articoli sono generati automaticamente a partire dai file Markdown mensili.
+    </p>
+  </div>
+
+  <!-- Griglia Completa News -->
+  <div class="news-grid archive-grid">
+    {% for post in site.posts %}
+    <article class="news-card">
+      <div class="news-card-image">
+        <a href="{{ post.url | relative_url }}" aria-label="Leggi {{ post.title }}">
+          {% if post.image %}
+          <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy" />
+          {% else %}
+          <img src="{{ site.assets.hero_image | relative_url }}" alt="{{ post.title }}" loading="lazy" />
+          {% endif %}
+        </a>
+        {% if post.category or post.categories.first %}
+        <span class="news-badge">{{ post.category | default: post.categories.first }}</span>
+        {% endif %}
+      </div>
+
+      <div class="news-card-body">
+        <div class="news-meta">
+          <time datetime="{{ post.date | date_to_xmlschema }}">
+            <svg class="meta-icon-mini" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            {{ post.date | date: "%d/%m/%Y" }}
+          </time>
+          {% if post.author %}
+          <span class="news-meta-sep">•</span>
+          <span class="news-author">{{ post.author }}</span>
+          {% endif %}
+        </div>
+
+        <h2 class="news-title">
+          <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+        </h2>
+
+        <p class="news-excerpt">
+          {{ post.excerpt | strip_html | truncatewords: 28 }}
+        </p>
+
+        <a href="{{ post.url | relative_url }}" class="news-read-more">
+          <span>Leggi l'articolo</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </article>
+    {% empty %}
+    <div class="empty-state-box">
+      <div class="empty-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v1m2 13a2 2 0 0 1-2-2V7m2 13a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+        </svg>
+      </div>
+      <h3>Nessuna notizia trovata</h3>
+      <p>I post in Markdown aggiunti alla cartella <code>_posts/</code> appariranno automaticamente in questa pagina.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>

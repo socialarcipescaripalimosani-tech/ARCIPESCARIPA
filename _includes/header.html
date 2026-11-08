@@ -1,0 +1,56 @@
+<header class="site-header" id="site-header">
+  <div class="header-container">
+    <!-- Brand / Logo del Circolo -->
+    <a href="{{ '/' | relative_url }}" class="brand-link" aria-label="ARCI Pesca Ripalimosani - Torna alla Home">
+      <img src="{{ site.assets.logo_circolo | default: '/assets/images/logo-circolo.png' | relative_url }}" 
+           alt="Logo ARCI Pesca Ripalimosani" 
+           class="brand-logo" />
+      <div class="brand-text">
+        <span class="brand-name">ARCI Pesca Ripalimosani</span>
+        <span class="brand-sub">Fiume Biferno (SS 647 km 31,350 - 33,250)</span>
+      </div>
+    </a>
+
+    <!-- Pulsante Menu Mobile (Hamburger) -->
+    <button class="nav-toggle" id="nav-toggle" aria-label="Apri menu di navigazione" aria-expanded="false" aria-controls="primary-nav">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+    <!-- Navigazione Superiore Persistente -->
+    <nav class="primary-nav" id="primary-nav" aria-label="Navigazione principale">
+      <ul class="nav-list">
+        <li class="nav-item">
+          <a href="{{ '/' | relative_url }}" class="nav-link {% if page.url == '/' %}active{% endif %}">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ '/news/' | relative_url }}" class="nav-link {% if page.url contains '/news/' %}active{% endif %}">
+            News
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ '/eventi/' | relative_url }}" class="nav-link {% if page.url contains '/eventi/' %}active{% endif %}">
+            Gare & Eventi
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ '/#tratto-biferno' | relative_url }}" class="nav-link">
+            Tratto Biferno
+          </a>
+        </li>
+        <li class="nav-item nav-item-cta">
+          <a href="{{ '/#associazione' | relative_url }}" class="nav-btn-pill nav-btn-association">
+            <svg class="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Associazione al Circolo</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
