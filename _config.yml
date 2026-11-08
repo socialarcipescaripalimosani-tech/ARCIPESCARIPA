@@ -13,8 +13,8 @@ societa: "ARCI Pesca Ripalimosani A.S.D."
 tratto_concessione: "Fiume Biferno: dal km 31,350 al km 33,250 della Strada Statale 647 (Bifernina)"
 
 # Configurazione GitHub Pages
-baseurl: ""
-url: ""
+baseurl: "/ARCIPESCARIPA"
+url: "https://socialarcipescaripalimosani-tech.github.io"
 
 # Google Forms: Moduli Online per Iscrizioni e Associazione
 # 1. Modulo Richiesta Associazione al Circolo (Tesseramento Soci)
