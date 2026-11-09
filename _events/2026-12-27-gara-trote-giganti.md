@@ -15,7 +15,7 @@ excerpt: "Domenica 27 Dicembre 2026: gara di pesca all'ultimo grammo con immissi
 
 # 🎣 Caccia ai Giganti: L'Evento di Pesca dell'Anno
 
-Benvenuti sulla pagina ufficiale dell'evento organizzato dal **Circolo Arci Pesca Fisa APS Ripalimosani**. Preparate l'attrezzatura: **Domenica 27 Dicembre 2026** vi aspetta una gara all'ultimo grammo, resa unica dall'immissione di **trote giganti** con una pezzatura che va dal mezzo chilo fino al chilo.
+Benvenuti sulla pagina ufficiale dell'evento organizzato dal **ARCI PESCA FISA APS RIPALIMOSANI**. Preparate l'attrezzatura: **Domenica 27 Dicembre 2026** vi aspetta una gara all'ultimo grammo, resa unica dall'immissione di **trote giganti** con una pezzatura che va dal mezzo chilo fino al chilo.
 
 ---
 
@@ -59,7 +59,7 @@ Siete pronti a lanciare la sfida ai giganti? Per qualsiasi informazione aggiunti
 * **Antonio Palermo**: [339 1260891](tel:3391260891)
 * **Angelo Tudino**: [338 8269347](tel:3388269347)
 
-> 💡 **Un'ulteriore comodità**: chi non dovesse avere la possibilità di versare la quota di iscrizione di persona agli organizzatori, può lasciarla in sicurezza presso il **Bar da Nicola**.
+> 💡 **Un'ulteriore comodità**: chi non dovesse avere la possibilità di versare la quota di iscrizione di persona agli organizzatori, può lasciarla in sicurezza presso il **Monforte Central Bar** in Piazza San Michele a Ripalimosani.
 
 ---
 

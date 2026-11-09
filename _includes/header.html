@@ -1,13 +1,13 @@
 <header class="site-header" id="site-header">
   <div class="header-container">
     <!-- Brand / Logo del Circolo -->
-    <a href="{{ '/' | relative_url }}" class="brand-link" aria-label="ARCI Pesca Ripalimosani - Torna alla Home">
+    <a href="{{ '/' | relative_url }}" class="brand-link" aria-label="ARCI PESCA FISA APS RIPALIMOSANI - Torna alla Home">
       <img src="{{ site.assets.logo_circolo | default: '/assets/images/logo-circolo.png' | relative_url }}" 
-           alt="Logo ARCI Pesca Ripalimosani" 
+           alt="Logo ARCI PESCA FISA APS RIPALIMOSANI" 
            class="brand-logo" />
       <div class="brand-text">
-        <span class="brand-name">ARCI Pesca Ripalimosani</span>
-        <span class="brand-sub">Fiume Biferno (SS 647 km 31,350 - 33,250)</span>
+        <span class="brand-name">ARCI PESCA FISA APS RIPALIMOSANI</span>
+        <span class="brand-sub">Fiume Biferno • Ripalimosani</span>
       </div>
     </a>
 
@@ -37,7 +37,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{ '/#tratto-biferno' | relative_url }}" class="nav-link">
+          <a href="{{ '/catture/' | relative_url }}" class="nav-link {% if page.url contains '/catture/' %}active{% endif %}">
+            🎣 Libretto Catture
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{ '/tratto-biferno/' | relative_url }}" class="nav-link {% if page.url contains '/tratto-biferno/' %}active{% endif %}">
             Tratto Biferno
           </a>
         </li>

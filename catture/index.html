@@ -1,0 +1,1334 @@
+---
+layout: page
+title: "Libretto Segnacatture Digitale"
+eyebrow: "Servizi ai Soci • Gestione Fiume Biferno"
+subtitle: "Accedi con Nome, Cognome e Numero Tessera per registrare le tue uscite di pesca e consultare il tuo storico catture in autonomia."
+permalink: /catture/
+---
+
+<div class="catch-book-container">
+
+  <!-- =========================================================================
+       1. SCHERMATA LOGIN / ACCESSO PESCATORE (visibile se non autenticato)
+       ========================================================================= -->
+  <div id="login-section" class="catch-card login-card">
+    <div class="login-header">
+      <div class="login-icon-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+          <circle cx="9" cy="10" r="2"></circle>
+          <line x1="15" y1="8" x2="17" y2="8"></line>
+          <line x1="15" y1="12" x2="17" y2="12"></line>
+          <line x1="7" y1="16" x2="17" y2="16"></line>
+        </svg>
+      </div>
+      <h2 class="login-title">Accesso al Tesserino Catture</h2>
+      <p class="login-sub">Inserisci i tuoi dati di socio per gestire le tue uscite di pesca sul Fiume Biferno o nei campi gara associati.</p>
+    </div>
+
+    <form id="login-form" class="catch-form" onsubmit="handleLogin(event)">
+      <div class="form-row form-row-2">
+        <div class="form-group">
+          <label for="socio-nome">Nome <span class="req">*</span></label>
+          <input type="text" id="socio-nome" name="nome" placeholder="Es. Mario" required autocomplete="given-name" />
+        </div>
+        <div class="form-group">
+          <label for="socio-cognome">Cognome <span class="req">*</span></label>
+          <input type="text" id="socio-cognome" name="cognome" placeholder="Es. Rossi" required autocomplete="family-name" />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="socio-tessera">Numero Tessera Socio ARCI Pesca <span class="req">*</span></label>
+        <div class="input-with-icon">
+          <input type="text" id="socio-tessera" name="tessera" placeholder="Es. 104 (oppure AP-2026-104)" required />
+          <span class="input-hint-icon">🪪</span>
+        </div>
+        <small class="field-hint">Il numero impresso sul tuo tesserino associativo o rilasciato all'atto dell'iscrizione.</small>
+      </div>
+
+      <div class="form-checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" id="remember-me" checked />
+          <span>Ricorda i miei dati su questo dispositivo (accesso rapido sul fiume)</span>
+        </label>
+      </div>
+
+      <button type="submit" class="btn-submit-catch" id="btn-login">
+        <span>Accedi al Mio Libretto</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </button>
+
+      <div class="login-rules-box">
+        <p class="rules-box-title">📌 Promemoria Regolamento Fiume Biferno:</p>
+        <ul class="rules-list-compact">
+          <li>Segnare ogni uscita <strong>prima di iniziare</strong> a pescare o al termine della sessione.</li>
+          <li>Rispettare le misure minime di legge e il regime <strong>No-Kill</strong> nei tratti segnalati.</li>
+          <li>Se sei un nuovo iscritto o non ricordi il numero di tessera, contatta il direttivo all'indirizzo <a href="mailto:arcipescaripalimosani@outlook.it">arcipescaripalimosani@outlook.it</a>.</li>
+        </ul>
+      </div>
+    </form>
+  </div>
+
+
+  <!-- =========================================================================
+       2. AREA RISERVATA PESCATORE (visibile dopo l'accesso)
+       ========================================================================= -->
+  <div id="dashboard-section" class="dashboard-section" style="display: none;">
+
+    <!-- Tesserino Virtuale Socio & Barra Profilo -->
+    <div class="member-badge-card">
+      <div class="member-badge-left">
+        <div class="member-avatar">
+          <span id="member-initials">MR</span>
+        </div>
+        <div class="member-meta">
+          <div class="member-status-line">
+            <span class="status-dot-active"></span>
+            <span class="status-text">Socio ARCI PESCA FISA APS RIPALIMOSANI</span>
+            <span class="season-pill">Stagione 2026</span>
+          </div>
+          <h2 class="member-fullname" id="display-fullname">Mario Rossi</h2>
+          <div class="member-card-number">
+            <span>Tessera N°:</span>
+            <strong id="display-card-number">104</strong>
+          </div>
+        </div>
+      </div>
+      <div class="member-badge-right">
+        <button type="button" class="btn-logout" onclick="handleLogout()" title="Esci da questa sessione">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          <span>Cambia Tessera</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Statistiche Rapide Personali -->
+    <div class="stats-overview-grid">
+      <div class="stat-box">
+        <div class="stat-number" id="stat-total-outings">0</div>
+        <div class="stat-label">Uscite Registrate</div>
+      </div>
+      <div class="stat-box stat-highlight-green">
+        <div class="stat-number" id="stat-total-released">0</div>
+        <div class="stat-label">Capi Rilasciati (No-Kill)</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number" id="stat-total-kept">0</div>
+        <div class="stat-label">Capi Trattenuti</div>
+      </div>
+      <div class="stat-box stat-highlight-gold">
+        <div class="stat-number" id="stat-big-fish">-</div>
+        <div class="stat-label">Big Fish Record</div>
+      </div>
+    </div>
+
+    <!-- Navigazione a Schede: Nuova Registrazione / Storico -->
+    <div class="dashboard-tabs">
+      <button class="tab-btn active" id="tab-btn-form" onclick="switchTab('form')">
+        ➕ Registra Nuova Uscita / Cattura
+      </button>
+      <button class="tab-btn" id="tab-btn-history" onclick="switchTab('history')">
+        📋 Storico Mie Uscite (<span id="history-count">0</span>)
+      </button>
+    </div>
+
+    <!-- SCHEDA A: MODULO REGISTRAZIONE CATTURA -->
+    <div id="tab-content-form" class="catch-card main-form-card">
+      <div class="card-intro">
+        <h3 class="card-intro-title">Compila Dettagli Uscita</h3>
+        <p class="card-intro-desc">Inserisci la data, il tratto del fiume e le catture effettuate. I dati vengono sincronizzati automaticamente con il registro ufficiale dell'Associazione.</p>
+      </div>
+
+      <form id="catch-registration-form" onsubmit="submitCatchEntry(event)">
+        <!-- RIGA 1: Data, Orario e Tratto -->
+        <div class="form-row form-row-3">
+          <div class="form-group">
+            <label for="entry-date">Data Uscita <span class="req">*</span></label>
+            <input type="date" id="entry-date" name="data_uscita" required />
+          </div>
+
+          <div class="form-group">
+            <label for="entry-timeframe">Fascia Oraria</label>
+            <select id="entry-timeframe" name="fascia_oraria">
+              <option value="Mattina (06:00 - 12:00)">Mattina (06:00 - 12:00)</option>
+              <option value="Pomeriggio (12:00 - 18:00)">Pomeriggio (12:00 - 18:00)</option>
+              <option value="Sera / Tramonto (18:00 - 21:00)">Sera / Tramonto (18:00 - 21:00)</option>
+              <option value="Intera Giornata">Intera Giornata</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="entry-location">Tratto / Specchio d'Acqua <span class="req">*</span></label>
+            <select id="entry-location" name="luogo" required>
+              <option value="Fiume Biferno - Concessione ARCI PESCA FISA APS RIPALIMOSANI" selected>Fiume Biferno - Concessione ARCI PESCA FISA APS RIPALIMOSANI</option>
+              <option value="Fiume Biferno - Tratto No-Kill">Fiume Biferno - Tratto No-Kill</option>
+              <option value="Fiume Biferno - Tratto Libero">Fiume Biferno - Tratto Libero</option>
+              <option value="Laghetto 'La Pianella' - Sassinoro">Laghetto 'La Pianella' - Sassinoro</option>
+              <option value="Lago di Guardialfiera (Liscione)">Lago di Guardialfiera (Liscione)</option>
+              <option value="Altro corso d'acqua Molise">Altro corso d'acqua Molise</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- RIGA 2: Regime e Tecnica -->
+        <div class="form-row form-row-2">
+          <div class="form-group">
+            <label for="entry-regime">Regime di Pesca <span class="req">*</span></label>
+            <select id="entry-regime" name="regime" required>
+              <option value="No-Kill (Rilascio Totale del Pescato)" selected>💚 No-Kill (Rilascio Totale Pescato)</option>
+              <option value="Pesca Ordinaria con Prelievo">🐟 Pesca Ordinaria con Prelievo (nei limiti)</option>
+              <option value="Gara Sociale / Manifestazione">🏆 Gara Sociale / Manifestazione</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="entry-technique">Tecnica di Pesca <span class="req">*</span></label>
+            <select id="entry-technique" name="tecnica" required>
+              <option value="Mosca Artificiale (Fly Fishing)" selected>Pesca a Mosca (Secca / Ninfa / Streamer)</option>
+              <option value="Spinning (Esche Artificiali)">Spinning</option>
+              <option value="Trota Lago (Tremarella / Bombarda)">Trota Lago (Tremarella / Bombarda)</option>
+              <option value="Passata / Canna Bolognese">Passata / Bolognese</option>
+              <option value="Carp Fishing / Pesca a Fondo">Carp Fishing / Fondo</option>
+              <option value="Altra Tecnica">Altra Tecnica</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- SEZIONE CATTURE DETTAGLIATE PER SPECIE -->
+        <div class="species-counter-section">
+          <div class="species-section-header">
+            <h4>🐟 Capi Catturati per Specie</h4>
+            <span class="species-hint">Usa i pulsanti + e - per aggiornare rapidamente i numeri</span>
+          </div>
+
+          <div class="species-grid">
+            <!-- 1. Trota Fario / Macrocheila -->
+            <div class="species-card">
+              <div class="species-card-head">
+                <span class="species-name">Trota Fario / Macrocheila</span>
+                <span class="species-subtag">Fiume Biferno</span>
+              </div>
+              <div class="species-steppers">
+                <div class="stepper-item">
+                  <span class="stepper-label">Rilasciate (C&R)</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('fario-released', -1)">-</button>
+                    <input type="number" id="fario-released" name="fario_rilasciate" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('fario-released', 1)">+</button>
+                  </div>
+                </div>
+                <div class="stepper-item">
+                  <span class="stepper-label">Trattenute</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('fario-kept', -1)">-</button>
+                    <input type="number" id="fario-kept" name="fario_trattenute" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('fario-kept', 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Trota Iridea -->
+            <div class="species-card">
+              <div class="species-card-head">
+                <span class="species-name">Trota Iridea</span>
+                <span class="species-subtag">Laghetto / Immissione</span>
+              </div>
+              <div class="species-steppers">
+                <div class="stepper-item">
+                  <span class="stepper-label">Rilasciate (C&R)</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('iridea-released', -1)">-</button>
+                    <input type="number" id="iridea-released" name="iridea_rilasciate" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('iridea-released', 1)">+</button>
+                  </div>
+                </div>
+                <div class="stepper-item">
+                  <span class="stepper-label">Trattenute</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('iridea-kept', -1)">-</button>
+                    <input type="number" id="iridea-kept" name="iridea_trattenute" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('iridea-kept', 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Altre Specie (Barbo, Cavedano, Carpa) -->
+            <div class="species-card">
+              <div class="species-card-head">
+                <span class="species-name">Carpa / Barbo / Cavedano</span>
+                <span class="species-subtag">Ciprinidi Biferno / Laghi</span>
+              </div>
+              <div class="species-steppers">
+                <div class="stepper-item">
+                  <span class="stepper-label">Rilasciate (C&R)</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('altri-released', -1)">-</button>
+                    <input type="number" id="altri-released" name="altri_rilasciate" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('altri-released', 1)">+</button>
+                  </div>
+                </div>
+                <div class="stepper-item">
+                  <span class="stepper-label">Trattenute</span>
+                  <div class="stepper-control">
+                    <button type="button" class="btn-step" onclick="adjustCount('altri-kept', -1)">-</button>
+                    <input type="number" id="altri-kept" name="altri_trattenute" value="0" min="0" />
+                    <button type="button" class="btn-step" onclick="adjustCount('altri-kept', 1)">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGA 3: Big Fish e Note -->
+        <div class="form-row form-row-2">
+          <div class="form-group">
+            <label for="entry-big-size">Esemplare Maggiore (Opzionale)</label>
+            <div class="dual-inputs">
+              <input type="text" id="entry-big-size" name="misura_max" placeholder="Misura (es. 48 cm)" />
+              <input type="text" id="entry-big-weight" name="peso_max" placeholder="Peso (es. 1.2 kg)" />
+            </div>
+            <small class="field-hint">Compila se hai catturato una trota o esemplare di rilievo.</small>
+          </div>
+
+          <div class="form-group">
+            <label for="entry-notes">Note, Esca e Condizioni Fiume</label>
+            <input type="text" id="entry-notes" name="note" placeholder="Es. Acqua velata, esca ninfa tungsteno, attività ottima..." />
+            <small class="field-hint">Annotazioni utili per il monitoraggio della riserva.</small>
+          </div>
+        </div>
+
+        <!-- PULSANTE REGISTRAZIONE -->
+        <div class="form-actions-bar">
+          <button type="submit" class="btn-submit-catch" id="btn-save-catch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              <polyline points="17 21 17 13 7 13 7 21"></polyline>
+              <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            <span>Salva e Registra nel Libretto</span>
+          </button>
+        </div>
+
+        <!-- Avviso di stato invio -->
+        <div id="submission-feedback" class="feedback-banner" style="display: none;"></div>
+      </form>
+    </div>
+
+    <!-- SCHEDA B: STORICO DELLE MIE USCITE -->
+    <div id="tab-content-history" class="catch-card history-card" style="display: none;">
+      <div class="history-header">
+        <div>
+          <h3 class="card-intro-title">Registro Storico Uscite Personali</h3>
+          <p class="card-intro-desc">Tutte le giornate di pesca registrate con la tua tessera associativa.</p>
+        </div>
+        <div class="history-actions">
+          <button type="button" class="btn-outline-print" onclick="window.print()">
+            🖨️ Stampa Libretto
+          </button>
+        </div>
+      </div>
+
+      <div id="history-empty" class="history-empty-state">
+        <div class="empty-icon">🎣</div>
+        <h4>Nessuna uscita ancora registrata</h4>
+        <p>Utilizza la scheda "Registra Nuova Uscita" per inserire la tua prima pescata della stagione.</p>
+      </div>
+
+      <div id="history-list" class="history-entries-list">
+        <!-- Generato dinamicamente da JavaScript -->
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =========================================================================
+     CSS DEDICATO PER IL LIBRETTO SEGNACATTURE
+     ========================================================================= -->
+<style>
+.catch-book-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 10px 0 40px;
+}
+
+.catch-card {
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(30, 40, 45, 0.06);
+  padding: 30px;
+  margin-bottom: 25px;
+}
+
+/* LOGIN CARD */
+.login-card {
+  max-width: 580px;
+  margin: 30px auto;
+  text-align: left;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.login-icon-badge {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px;
+  background: var(--color-sage-surface, #F2F7F4);
+  color: var(--color-sage, #52796F);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-icon-badge svg {
+  width: 30px;
+  height: 30px;
+}
+
+.login-title {
+  font-size: 1.6rem;
+  color: var(--color-river-dark, #1E282D);
+  margin-bottom: 8px;
+}
+
+.login-sub {
+  color: var(--color-river-muted, #526671);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* FORM ELEMENTS */
+.form-row {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-row-2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-row-3 {
+  grid-template-columns: 1fr 1fr 1.3fr;
+}
+
+@media (max-width: 768px) {
+  .form-row-2, .form-row-3 {
+    grid-template-columns: 1fr;
+  }
+  .catch-card {
+    padding: 20px 16px;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-river-primary, #2F3E46);
+  margin-bottom: 6px;
+}
+
+.req {
+  color: #d93838;
+}
+
+.form-group input, 
+.form-group select {
+  height: 46px;
+  padding: 0 14px;
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: #FAFAFA;
+  color: var(--color-river-dark, #1E282D);
+  transition: all 0.2s ease;
+}
+
+.form-group input:focus, 
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-sage, #52796F);
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(82, 121, 111, 0.15);
+}
+
+.input-with-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-with-icon input {
+  width: 100%;
+  padding-right: 44px;
+}
+
+.input-hint-icon {
+  position: absolute;
+  right: 14px;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.dual-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.field-hint {
+  font-size: 0.78rem;
+  color: var(--color-river-muted, #526671);
+  margin-top: 5px;
+}
+
+.form-checkbox-group {
+  margin: 18px 0;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.88rem;
+  color: var(--color-river-dark, #1E282D);
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-sage, #52796F);
+}
+
+.btn-submit-catch {
+  width: 100%;
+  height: 50px;
+  background: var(--color-sage, #52796F);
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-submit-catch:hover {
+  background: var(--color-sage-dark, #354F52);
+  transform: translateY(-1px);
+}
+
+.btn-submit-catch svg {
+  width: 20px;
+  height: 20px;
+}
+
+.login-rules-box {
+  margin-top: 25px;
+  padding: 16px;
+  background: var(--color-sand-warm, #F4EFEB);
+  border-radius: 10px;
+  border-left: 4px solid var(--color-sage, #52796F);
+}
+
+.rules-box-title {
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--color-river-dark, #1E282D);
+  margin-bottom: 6px;
+}
+
+.rules-list-compact {
+  padding-left: 18px;
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--color-river-muted, #526671);
+  line-height: 1.5;
+}
+
+/* MEMBER BADGE CARD (DASHBOARD) */
+.member-badge-card {
+  background: linear-gradient(135deg, var(--color-river-dark, #1E282D) 0%, var(--color-river-primary, #2F3E46) 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(30, 40, 45, 0.15);
+}
+
+@media (max-width: 650px) {
+  .member-badge-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+}
+
+.member-badge-left {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.member-avatar {
+  width: 58px;
+  height: 58px;
+  background: var(--color-sage, #52796F);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.member-status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.status-dot-active {
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+}
+
+.status-text {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.season-pill {
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+.member-fullname {
+  font-size: 1.45rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  color: #ffffff;
+}
+
+.member-card-number {
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.member-card-number strong {
+  color: #84A98C;
+  font-size: 1.05rem;
+}
+
+.btn-logout {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-logout svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* STATS GRID */
+.stats-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .stats-overview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.stat-box {
+  background: var(--color-white, #ffffff);
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 12px;
+  padding: 18px 14px;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-river-dark, #1E282D);
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--color-river-muted, #526671);
+  font-weight: 500;
+}
+
+.stat-highlight-green .stat-number {
+  color: var(--color-sage, #52796F);
+}
+
+.stat-highlight-gold .stat-number {
+  color: #b45309;
+}
+
+/* TABS */
+.dashboard-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 13px 18px;
+  background: var(--color-sand-warm, #F4EFEB);
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-river-primary, #2F3E46);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--color-sage, #52796F);
+  border-color: var(--color-sage, #52796F);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(82, 121, 111, 0.25);
+}
+
+/* SPECIES COUNTERS */
+.species-counter-section {
+  background: var(--color-sand, #FAF8F5);
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 14px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.species-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.species-section-header h4 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--color-river-dark, #1E282D);
+}
+
+.species-hint {
+  font-size: 0.78rem;
+  color: var(--color-river-muted, #526671);
+}
+
+.species-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 820px) {
+  .species-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.species-card {
+  background: #ffffff;
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.species-card-head {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed var(--color-sand-border, #E5DFD5);
+  padding-bottom: 8px;
+}
+
+.species-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--color-river-dark, #1E282D);
+}
+
+.species-subtag {
+  font-size: 0.75rem;
+  color: var(--color-river-muted, #526671);
+}
+
+.species-steppers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stepper-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stepper-label {
+  font-size: 0.82rem;
+  color: var(--color-river-primary, #2F3E46);
+  font-weight: 500;
+}
+
+.stepper-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-step {
+  width: 32px;
+  height: 32px;
+  background: var(--color-sand-warm, #F4EFEB);
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--color-river-dark, #1E282D);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.btn-step:hover {
+  background: var(--color-sand-border, #E5DFD5);
+}
+
+.stepper-control input {
+  width: 44px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.feedback-banner {
+  margin-top: 18px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.feedback-banner.success {
+  background: #dcfce7;
+  color: #166534;
+  border: 1px solid #86efac;
+}
+
+.feedback-banner.error {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+/* HISTORY ENTRIES */
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.btn-outline-print {
+  background: transparent;
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.history-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--color-river-muted, #526671);
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+}
+
+.history-entry-item {
+  border: 1px solid var(--color-sand-border, #E5DFD5);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+  background: #ffffff;
+  transition: box-shadow 0.2s;
+}
+
+.history-entry-item:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.entry-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-sand-warm, #F4EFEB);
+}
+
+.entry-date-badge {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--color-river-dark, #1E282D);
+}
+
+.entry-tags {
+  display: flex;
+  gap: 8px;
+}
+
+.tag-pill {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.tag-nokill {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.tag-prelievo {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.tag-location {
+  background: var(--color-sand-warm, #F4EFEB);
+  color: var(--color-river-muted, #526671);
+}
+
+.entry-body-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .entry-body-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.catch-summary-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip-catch {
+  background: var(--color-sage-surface, #F2F7F4);
+  border: 1px solid var(--color-sage-tint, #E8EFEA);
+  color: var(--color-river-primary, #2F3E46);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.entry-notes {
+  font-size: 0.82rem;
+  color: var(--color-river-muted, #526671);
+  font-style: italic;
+  margin-top: 8px;
+}
+</style>
+
+
+<!-- =========================================================================
+     JAVASCRIPT DEL LIBRETTO SEGNACATTURE
+     ========================================================================= -->
+<script>
+/**
+ * LIBRETTO SEGNACATTURE DIGITALE - ARCI PESCA FISA APS RIPALIMOSANI
+ * Supporta autenticazione pescatore con Nome, Cognome e Numero Tessera.
+ * Salvataggio in locale (offline sul fiume) + sincronizzazione cloud Google Sheets.
+ */
+
+// Se configurato l'URL di Google Apps Script, i dati vengono sincronizzati nel Cloud.
+// Lascia vuoto ("") per la modalità locale/offline istantanea.
+const GOOGLE_APPS_SCRIPT_URL = ""; 
+
+const STORAGE_KEY_USER = "arcipesca_active_member";
+const STORAGE_KEY_CATCHES = "arcipesca_catches_log_v1";
+
+// Inizializzazione al caricamento
+document.addEventListener("DOMContentLoaded", () => {
+  // Imposta la data di oggi nel form di inserimento
+  const today = new Date().toISOString().split("T")[0];
+  const dateInput = document.getElementById("entry-date");
+  if (dateInput) dateInput.value = today;
+
+  // Controlla se l'utente è già loggato
+  checkSavedSession();
+});
+
+// Verifica se c'è un socio memorizzato su questo telefono/computer
+function checkSavedSession() {
+  const savedUser = localStorage.getItem(STORAGE_KEY_USER);
+  if (savedUser) {
+    try {
+      const user = JSON.parse(savedUser);
+      showDashboard(user);
+    } catch(e) {
+      localStorage.removeItem(STORAGE_KEY_USER);
+    }
+  }
+}
+
+// Gestione Login del Pescatore
+function handleLogin(e) {
+  e.preventDefault();
+  const nome = document.getElementById("socio-nome").value.trim();
+  const cognome = document.getElementById("socio-cognome").value.trim();
+  const tessera = document.getElementById("socio-tessera").value.trim();
+  const remember = document.getElementById("remember-me").checked;
+
+  if (!nome || !cognome || !tessera) {
+    alert("Compila tutti i campi obbligatori (Nome, Cognome e Numero Tessera).");
+    return;
+  }
+
+  const user = {
+    nome: capitalize(nome),
+    cognome: capitalize(cognome),
+    tessera: tessera.toUpperCase(),
+    loginTime: new Date().toISOString()
+  };
+
+  if (remember) {
+    localStorage.setItem(STORAGE_KEY_USER, JSON.stringify(user));
+  }
+
+  showDashboard(user);
+}
+
+// Mostra la Dashboard del socio
+function showDashboard(user) {
+  document.getElementById("login-section").style.display = "none";
+  document.getElementById("dashboard-section").style.display = "block";
+
+  // Aggiorna intestazione
+  document.getElementById("display-fullname").textContent = `${user.nome} ${user.cognome}`;
+  document.getElementById("display-card-number").textContent = user.tessera;
+  
+  const initials = `${user.nome.charAt(0)}${user.cognome.charAt(0)}`.toUpperCase();
+  document.getElementById("member-initials").textContent = initials;
+
+  // Carica storico catture di questo socio
+  loadMemberCatches(user.tessera);
+}
+
+// Logout / Cambio Tessera
+function handleLogout() {
+  if (confirm("Vuoi uscire da questa sessione?")) {
+    localStorage.removeItem(STORAGE_KEY_USER);
+    document.getElementById("dashboard-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+    document.getElementById("login-form").reset();
+  }
+}
+
+// Passaggio tra le schede (Form / Storico)
+function switchTab(tab) {
+  const btnForm = document.getElementById("tab-btn-form");
+  const btnHistory = document.getElementById("tab-btn-history");
+  const contentForm = document.getElementById("tab-content-form");
+  const contentHistory = document.getElementById("tab-content-history");
+
+  if (tab === "form") {
+    btnForm.classList.add("active");
+    btnHistory.classList.remove("active");
+    contentForm.style.display = "block";
+    contentHistory.style.display = "none";
+  } else {
+    btnForm.classList.remove("active");
+    btnHistory.classList.add("active");
+    contentForm.style.display = "none";
+    contentHistory.style.display = "block";
+  }
+}
+
+// Stepper + e - per i capi catturati
+function adjustCount(inputId, delta) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  let val = parseInt(input.value, 10) || 0;
+  val = Math.max(0, val + delta);
+  input.value = val;
+}
+
+// Invio nuova registrazione cattura
+async function submitCatchEntry(e) {
+  e.preventDefault();
+  const user = JSON.parse(localStorage.getItem(STORAGE_KEY_USER) || "{}");
+  if (!user.tessera) {
+    alert("Sessione scaduta. Effettua nuovamente l'accesso.");
+    handleLogout();
+    return;
+  }
+
+  const btn = document.getElementById("btn-save-catch");
+  btn.disabled = true;
+  btn.innerHTML = `<span>Salvataggio in corso...</span>`;
+
+  const entry = {
+    id: "CAT-" + Date.now(),
+    timestamp: new Date().toISOString(),
+    tessera: user.tessera,
+    pescatore: `${user.nome} ${user.cognome}`,
+    dataUscita: document.getElementById("entry-date").value,
+    fasciaOraria: document.getElementById("entry-timeframe").value,
+    luogo: document.getElementById("entry-location").value,
+    regime: document.getElementById("entry-regime").value,
+    tecnica: document.getElementById("entry-technique").value,
+    farioRilasciate: parseInt(document.getElementById("fario-released").value, 10) || 0,
+    farioTrattenute: parseInt(document.getElementById("fario-kept").value, 10) || 0,
+    irideaRilasciate: parseInt(document.getElementById("iridea-released").value, 10) || 0,
+    irideaTrattenute: parseInt(document.getElementById("iridea-kept").value, 10) || 0,
+    altriRilasciate: parseInt(document.getElementById("altri-released").value, 10) || 0,
+    altriTrattenute: parseInt(document.getElementById("altri-kept").value, 10) || 0,
+    misuraMax: document.getElementById("entry-big-size").value.trim(),
+    pesoMax: document.getElementById("entry-big-weight").value.trim(),
+    note: document.getElementById("entry-notes").value.trim()
+  };
+
+  // 1. Salva sempre in localStorage
+  saveCatchLocally(entry);
+
+  // 2. Se configurato Google Apps Script, invia in background
+  if (GOOGLE_APPS_SCRIPT_URL) {
+    try {
+      await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "add_catch", entry: entry })
+      });
+    } catch(err) {
+      console.warn("Impossibile sincronizzare in cloud al momento (offline). Salvato in locale.");
+    }
+  }
+
+  // Feedback di successo
+  const feedback = document.getElementById("submission-feedback");
+  feedback.className = "feedback-banner success";
+  feedback.style.display = "block";
+  feedback.innerHTML = `✅ Uscita del <strong>${entry.dataUscita}</strong> registrata con successo nel tuo Libretto Segnacatture!`;
+
+  // Resetta i contatori
+  document.getElementById("fario-released").value = 0;
+  document.getElementById("fario-kept").value = 0;
+  document.getElementById("iridea-released").value = 0;
+  document.getElementById("iridea-kept").value = 0;
+  document.getElementById("altri-released").value = 0;
+  document.getElementById("altri-kept").value = 0;
+  document.getElementById("entry-big-size").value = "";
+  document.getElementById("entry-big-weight").value = "";
+  document.getElementById("entry-notes").value = "";
+
+  btn.disabled = false;
+  btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg><span>Salva e Registra nel Libretto</span>`;
+
+  // Ricarica e passa allo storico
+  loadMemberCatches(user.tessera);
+  setTimeout(() => {
+    feedback.style.display = "none";
+    switchTab("history");
+  }, 1800);
+}
+
+// Salva cattura nel localStorage
+function saveCatchLocally(entry) {
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(STORAGE_KEY_CATCHES) || "[]");
+  } catch(e) {
+    list = [];
+  }
+  list.unshift(entry);
+  localStorage.setItem(STORAGE_KEY_CATCHES, JSON.stringify(list));
+}
+
+// Carica e renderizza uscite del socio
+function loadMemberCatches(tessera) {
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(STORAGE_KEY_CATCHES) || "[]");
+  } catch(e) {
+    list = [];
+  }
+
+  // Filtra solo quelle di questo socio
+  const memberEntries = list.filter(item => item.tessera === tessera);
+
+  // Aggiorna contatore tab
+  document.getElementById("history-count").textContent = memberEntries.length;
+
+  // Calcola statistiche
+  let totalReleased = 0;
+  let totalKept = 0;
+  let bestFish = "-";
+
+  memberEntries.forEach(item => {
+    totalReleased += (item.farioRilasciate || 0) + (item.irideaRilasciate || 0) + (item.altriRilasciate || 0);
+    totalKept += (item.farioTrattenute || 0) + (item.irideaTrattenute || 0) + (item.altriTrattenute || 0);
+    if (item.misuraMax && bestFish === "-") {
+      bestFish = item.misuraMax;
+    }
+  });
+
+  document.getElementById("stat-total-outings").textContent = memberEntries.length;
+  document.getElementById("stat-total-released").textContent = totalReleased;
+  document.getElementById("stat-total-kept").textContent = totalKept;
+  document.getElementById("stat-big-fish").textContent = bestFish;
+
+  // Renderizza lista storico
+  const historyList = document.getElementById("history-list");
+  const emptyState = document.getElementById("history-empty");
+
+  if (memberEntries.length === 0) {
+    emptyState.style.display = "block";
+    historyList.innerHTML = "";
+    return;
+  }
+
+  emptyState.style.display = "none";
+  historyList.innerHTML = memberEntries.map(entry => {
+    const isNoKill = entry.regime && entry.regime.toLowerCase().includes("no-kill");
+    const chips = [];
+
+    if (entry.farioRilasciate > 0) chips.push(`<span class="chip-catch">Fario C&R: ${entry.farioRilasciate}</span>`);
+    if (entry.farioTrattenute > 0) chips.push(`<span class="chip-catch">Fario Trattenute: ${entry.farioTrattenute}</span>`);
+    if (entry.irideaRilasciate > 0) chips.push(`<span class="chip-catch">Iridee C&R: ${entry.irideaRilasciate}</span>`);
+    if (entry.irideaTrattenute > 0) chips.push(`<span class="chip-catch">Iridee Trattenute: ${entry.irideaTrattenute}</span>`);
+    if (entry.altriRilasciate > 0) chips.push(`<span class="chip-catch">Altri pesci C&R: ${entry.altriRilasciate}</span>`);
+    if (entry.altriTrattenute > 0) chips.push(`<span class="chip-catch">Altri trattenuti: ${entry.altriTrattenute}</span>`);
+    if (chips.length === 0) chips.push(`<span class="chip-catch">Nessuna cattura (Uscita a vuoto)</span>`);
+
+    return `
+      <div class="history-entry-item">
+        <div class="entry-head">
+          <div class="entry-date-badge">📅 ${formatItalianDate(entry.dataUscita)}</div>
+          <div class="entry-tags">
+            <span class="tag-pill ${isNoKill ? 'tag-nokill' : 'tag-prelievo'}">${isNoKill ? 'No-Kill' : 'Prelievo'}</span>
+            <span class="tag-pill tag-location">${entry.tecnica || 'Libera'}</span>
+          </div>
+        </div>
+        <div class="entry-body-grid">
+          <div>
+            <div style="font-size: 0.88rem; font-weight: 600; color: #1E282D; margin-bottom: 6px;">
+              📍 ${entry.luogo}
+            </div>
+            <div class="catch-summary-chips">
+              ${chips.join("")}
+            </div>
+            ${entry.misuraMax || entry.pesoMax ? `
+              <div style="font-size: 0.82rem; color: #b45309; font-weight: 700; margin-top: 6px;">
+                ⭐ Big Fish: ${[entry.misuraMax, entry.pesoMax].filter(Boolean).join(" - ")}
+              </div>` : ''}
+            ${entry.note ? `<div class="entry-notes">"${entry.note}"</div>` : ''}
+          </div>
+          <div style="text-align: right; font-size: 0.78rem; color: #526671;">
+            <div>Fascia: ${entry.fasciaOraria || 'Giornata'}</div>
+            <div style="font-size: 0.72rem; margin-top: 4px;">ID: ${entry.id}</div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("");
+}
+
+function formatItalianDate(dateStr) {
+  if (!dateStr) return "";
+  const parts = dateStr.split("-");
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  return dateStr;
+}
+
+function capitalize(str) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+</script>
